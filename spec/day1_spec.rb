@@ -1022,6 +1022,14 @@ INPUT
       expect(subject.part1(real_input)).to eq("?")
     end
   end
+
+  context "part 2" do
+    it "returns the correct value for the given example" do
+      expect(subject.part2(example_input)).to eq(31)
+    end
+
+    it "runs the actual input" do
+      expect(subject.part2(real_input)).to eq("?")
     end
   end
 end
