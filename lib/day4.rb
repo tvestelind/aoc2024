@@ -29,4 +29,27 @@ module Day4
 
     [up, down, left, right, up_left, up_right, down_left, down_right].count { _1 == "MAS" }
   end
+
+  def part2(input)
+    input
+      .lines
+      .map(&:chomp)
+      .map { _1.split(//) }
+      .then do |matrix|
+        matrix.each_with_index.sum do |row, y|
+          row.each_with_index.count { |cell, x| cell == "A" && xmas?(matrix, x, y) }
+        end
+      end
+  end
+
+  def xmas?(matrix, x, y)
+    raise "x and y must be an A" if matrix.dig(y, x) != "A"
+
+    safe_dig = ->(y, x) { y >= 0 && x >= 0 ? matrix.dig(y, x).to_s : "" }
+
+    left_to_right = safe_dig.call(y - 1, x - 1) + safe_dig.call(y + 1, x + 1)
+    right_to_left = safe_dig.call(y - 1, x + 1) + safe_dig.call(y + 1, x - 1)
+
+    [left_to_right, right_to_left].count { _1 == "MS" || _1 == "SM"} == 2
+  end
 end
